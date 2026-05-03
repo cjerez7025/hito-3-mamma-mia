@@ -139,7 +139,7 @@ npm run deploy
 | LoginPage con email, password + validaciones + mensaje éxito | 5 | ✅ |
 
 ### Hito 3 — Renderización dinámica de componentes (10 pts)
-
+https://cjerez7025.github.io/hito-3-mamma-mia/
 | Criterio | Pts | Estado |
 |---|---|---|
 | Home recorre array de pizzas y renderiza un CardPizza por cada una | 3 | ✅ |
