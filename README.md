@@ -1,133 +1,114 @@
-# 🍕 Pizzería Mamma Mía
+# Pizzería Mamma Mía
 
-Proyecto incremental desarrollado con **React + Vite.js** como parte del curso Full Stack JavaScript en Desafío Latam (G108).
+Proyecto **incremental** desarrollado con **React + Vite.js** como parte del curso Full Stack JavaScript en Desafío Latam (G108).
 
-🌐 **Demo en vivo:** [https://cjerez7025.github.io/mamma-mia/](https://cjerez7025.github.io/mamma-mia/) — desplegado en GitHub Pages.
+Cada hito agrega funcionalidad sobre el anterior. El código en `main` corresponde al **Hito 4** (última entrega).
 
 ---
 
-## 🚀 Tecnologías utilizadas
+## Hito 4 — Consumo de APIs con React (entrega actual)
 
-| Tecnología | Uso |
+### Objetivo
+
+Reemplazar los datos locales (`pizzas.js`) por el consumo de una **API REST** usando `useEffect` + `fetch`. Se incorpora un backend Node.js/Express que expone los endpoints de pizzas.
+
+### Componentes nuevos / modificados
+
+| Archivo | Cambio |
 |---|---|
-| React 19.2.5 | Librería principal de UI |
-| Vite.js | Bundler y servidor de desarrollo |
-| Bootstrap 5 | Estilos base |
-| react-bootstrap | Componentes UI (Navbar, Form, Alert, Button, Table) |
-| gh-pages | Despliegue en GitHub Pages |
+| `src/components/Home.jsx` | Consume `GET /api/pizzas` con `useEffect` + `fetch`, reemplaza datos locales |
+| `src/components/Pizza.jsx` | Componente nuevo — consume `GET /api/pizzas/p001`, muestra detalle de una pizza |
+| `src/App.jsx` | Activa `<Pizza />`, comenta `<Home />` y demás vistas |
+| `backend/` | Servidor Express en puerto 5000 con endpoints de pizzas, auth y checkout |
+
+### Criterios de evaluación
+
+| Criterio | Pts | Estado |
+|---|---|---|
+| Home.jsx consume la API y renderiza tarjetas de pizza | 2 | ✅ |
+| Home.jsx utiliza `useEffect` para consumir la API | 2 | ✅ |
+| Pizza.jsx consume la API y renderiza la información de la pizza | 2 | ✅ |
+| Pizza.jsx utiliza `useEffect` para consumir la API | 2 | ✅ |
+| Pizza.jsx muestra nombre, precio, ingredientes, imagen y descripción | 2 | ✅ |
+
+### Cómo ejecutar (requiere dos terminales)
+
+```bash
+# Terminal 1 — backend
+cd backend/simple-api-backend-nodejs-express-fs-json-jwt-main
+npm install
+npm run dev        # http://localhost:5000
+
+# Terminal 2 — frontend
+npm install
+npm run dev        # http://localhost:5173/hito-3-mamma-mia/
+```
+
+> **Nota sobre GitHub Pages:** El backend es un servidor Node.js que no puede desplegarse en GitHub Pages (solo soporta archivos estáticos). El sitio publicado mostrará la interfaz pero sin datos de pizzas. Para evaluar el funcionamiento completo es necesario ejecutar ambos servidores localmente.
 
 ---
 
-## 📁 Estructura del proyecto
+## Estructura del proyecto (Hito 4)
 
 ```
 mamma-mia/
+├── backend/
+│   └── simple-api-backend-nodejs-express-fs-json-jwt-main/
+│       ├── index.js                    # Servidor Express (puerto 5000)
+│       ├── routes/
+│       │   ├── pizza.route.js          # GET /api/pizzas, GET /api/pizzas/:id
+│       │   ├── auth.route.js           # POST /api/auth/login, /register, /me
+│       │   └── checkout.route.js       # POST /api/checkouts (JWT requerido)
+│       ├── controllers/
+│       ├── models/
+│       ├── middlewares/
+│       └── db/
+│           ├── pizzas.json             # Datos de 6 pizzas
+│           └── users.json
 ├── src/
 │   ├── assets/
-│   │   └── Header.jpg              # Imagen de fondo del hero
+│   │   └── Header.jpg
 │   ├── components/
-│   │   ├── Navbar.jsx              # Barra de navegación (token, total)
-│   │   ├── Header.jsx              # Hero con imagen de fondo, título y descripción
-│   │   ├── Home.jsx                # Página principal — renderiza 6 pizzas dinámicamente
-│   │   ├── CardPizza.jsx           # Tarjeta de pizza (props + ingredientes como <li>)
-│   │   ├── Cart.jsx                # Carrito de compras con +/-, total y botón Pagar
-│   │   ├── Footer.jsx              # Pie de página
-│   │   ├── LoginPage.jsx           # Formulario de login con validaciones (Hito 2)
-│   │   └── RegisterPage.jsx        # Formulario de registro con validaciones (Hito 2)
+│   │   ├── Navbar.jsx                  # Barra de navegación
+│   │   ├── Header.jsx                  # Hero con imagen de fondo
+│   │   ├── Home.jsx                    # (Hito 4) Consume API — lista de pizzas
+│   │   ├── Pizza.jsx                   # (Hito 4) Consume API — detalle de una pizza
+│   │   ├── CardPizza.jsx               # Tarjeta de pizza con props
+│   │   ├── Cart.jsx                    # (Hito 3) Carrito con +/-, total
+│   │   ├── Footer.jsx                  # Pie de página
+│   │   ├── LoginPage.jsx               # (Hito 2) Formulario de login
+│   │   └── RegisterPage.jsx            # (Hito 2) Formulario de registro
 │   ├── utils/
-│   │   └── formatPrice.js          # Helper formato de precios CLP
-│   ├── pizzas.js                   # Datos: array pizzas (6) y pizzaCart (3)
-│   ├── App.jsx                     # Raíz: controla qué componente se muestra
+│   │   └── formatPrice.js
+│   ├── pizzas.js                       # Datos locales (referencia, reemplazado por API en H4)
+│   ├── App.jsx
 │   └── main.jsx
-├── vite.config.js
+├── vite.config.js                      # Proxy /api → http://localhost:5000
 └── package.json
 ```
 
 ---
 
-## 🔄 Flujo de componentes
+## Hitos anteriores
 
-### Hito 3 — App.jsx activo
-```
-App.jsx
-├── <NavBar />    → estático (token y total fijos por ahora)
-├── <Cart />      → carrito activo
-│     {/* <Home /> */}
-│     {/* <RegisterPage /> */}
-│     {/* <LoginPage /> */}
-└── <Footer />
-```
+### Hito 3 — Renderización dinámica (10 pts)
+Demo: https://cjerez7025.github.io/hito-3-mamma-mia/
 
-### Hito 2 — flujo de navegación con useState
-```
-Inicio
-  └─► LoginPage
-        ├─► credenciales válidas  ──► Home (pizzas)
-        │                               └─► Logout ──► LoginPage
-        └─► "¿No tienes cuenta?" ──► RegisterPage
-                                          └─► registro exitoso ──► LoginPage
-```
+| Criterio | Pts | Estado |
+|---|---|---|
+| Home recorre array de pizzas y renderiza un CardPizza por cada una | 3 | ✅ |
+| CardPizza muestra información de cada pizza usando props | 2 | ✅ |
+| CardPizza itera ingredientes y renderiza un `<li>` por cada uno | 2 | ✅ |
+| Cart recorre pizzaCart y muestra información de cada pizza | 1 | ✅ |
+| Cart tiene botones para aumentar y disminuir cantidad | 1 | ✅ |
+| Cart calcula y muestra el total de la compra | 1 | ✅ |
 
----
+### Hito 2 — Estado de componentes y eventos (10 pts)
 
-## 🛒 Lógica del carrito (Hito 3)
-
-```
-Cart.jsx
-  ├── Estado inicial: useState(pizzaCart)   ← importado de pizzas.js
-  ├── handleIncrease(id) → count + 1
-  ├── handleDecrease(id) → count - 1, si count === 0 se elimina del carrito
-  └── total = cart.reduce((acc, item) => acc + item.price * item.count, 0)
-```
-
-### Renderización dinámica — Home.jsx
-```
-pizzas.js → array de 6 pizzas
-Home.jsx  → pizzas.map(pizza => <CardPizza key={pizza.id} {...pizza} />)
-```
-
-### Ingredientes como lista — CardPizza.jsx
-```
-ingredients.map(ing => <li key={ing}>🍕 {ing}</li>)
-```
-
-### Lógica token — Navbar
-```
-token = false  →  muestra 🔐 Login y 🔐 Register
-token = true   →  muestra 🔓 Profile y 🔒 Logout
-🍕 Home y 🛒 Total  →  siempre visibles
-```
-
----
-
-## ⚙️ Instalación y uso
-
-### Hito 4 — requiere ejecutar frontend y backend por separado
-
-```bash
-# 1. Backend (terminal 1)
-cd backend/simple-api-backend-nodejs-express-fs-json-jwt-main
-npm install
-npm run dev        # http://localhost:5000
-
-# 2. Frontend (terminal 2)
-npm install
-npm run dev        # http://localhost:5173
-```
-
-> **Nota importante — Hito 4:** Esta versión consume una API REST local (`http://localhost:5000`). El backend es un servidor Node.js/Express que **no puede desplegarse en GitHub Pages** (solo soporta archivos estáticos). Por esta razón, el sitio publicado en GitHub Pages no mostrará las pizzas. Para evaluar el funcionamiento completo, es necesario ejecutar ambos servidores localmente siguiendo los pasos anteriores.
-
-```bash
-# Build de producción
-npm run build
-
-# Publicar en GitHub Pages (solo frontend estático)
-npm run deploy
-```
-
----
-
-## 📋 Criterios de evaluación
+| Criterio | Pts | Estado |
+|---|---|---|
+| RegisterPage con email, password, confirmPassword + validaciones + mensaje éxito | 5 | ✅ |
+| LoginPage con email, password + validaciones + mensaje éxito | 5 | ✅ |
 
 ### Hito 1 — Introducción a React (10 pts)
 
@@ -140,35 +121,18 @@ npm run deploy
 | CardPizza.jsx con props: name, price, ingredients, img | 2 | ✅ |
 | Footer.jsx con derechos reservados | 1 | ✅ |
 
-### Hito 2 — Estado de componentes y eventos (10 pts)
-
-| Criterio | Pts | Estado |
-|---|---|---|
-| RegisterPage con email, password, confirmPassword + validaciones + mensaje éxito | 5 | ✅ |
-| LoginPage con email, password + validaciones + mensaje éxito | 5 | ✅ |
-
-### Hito 3 — Renderización dinámica de componentes (10 pts)
-https://cjerez7025.github.io/hito-3-mamma-mia/
-| Criterio | Pts | Estado |
-|---|---|---|
-| Home recorre array de pizzas y renderiza un CardPizza por cada una | 3 | ✅ |
-| CardPizza muestra información de cada pizza usando props | 2 | ✅ |
-| CardPizza itera ingredientes y renderiza un `<li>` por cada uno | 2 | ✅ |
-| Cart recorre pizzaCart y muestra información de cada pizza | 1 | ✅ |
-| Cart tiene botones para aumentar y disminuir cantidad | 1 | ✅ |
-| Cart calcula y muestra el total de la compra | 1 | ✅ |
-
 ---
 
-### Hito 4 — Consumo de APIs con React (10 pts)
+## Tecnologías utilizadas
 
-| Criterio | Pts | Estado |
-|---|---|---|
-| Home.jsx consume la API y renderiza tarjetas de pizza | 2 | ✅ |
-| Home.jsx utiliza `useEffect` para consumir la API | 2 | ✅ |
-| Pizza.jsx consume la API y renderiza la información de la pizza | 2 | ✅ |
-| Pizza.jsx utiliza `useEffect` para consumir la API | 2 | ✅ |
-| Pizza.jsx muestra nombre, precio, ingredientes, imagen y descripción | 2 | ✅ |
+| Tecnología | Uso |
+|---|---|
+| React 19 | Librería principal de UI |
+| Vite.js | Bundler y servidor de desarrollo |
+| Bootstrap 5 | Estilos base |
+| react-bootstrap | Componentes UI |
+| Express + CORS + JWT | Backend API REST (Hito 4) |
+| gh-pages | Despliegue en GitHub Pages |
 
 ---
 
