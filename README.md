@@ -102,17 +102,26 @@ token = true   →  muestra 🔓 Profile y 🔒 Logout
 
 ## ⚙️ Instalación y uso
 
+### Hito 4 — requiere ejecutar frontend y backend por separado
+
 ```bash
-# Instalar dependencias
+# 1. Backend (terminal 1)
+cd backend/simple-api-backend-nodejs-express-fs-json-jwt-main
 npm install
+npm run dev        # http://localhost:5000
 
-# Servidor de desarrollo
+# 2. Frontend (terminal 2)
+npm install
 npm run dev        # http://localhost:5173
+```
 
+> **Nota importante — Hito 4:** Esta versión consume una API REST local (`http://localhost:5000`). El backend es un servidor Node.js/Express que **no puede desplegarse en GitHub Pages** (solo soporta archivos estáticos). Por esta razón, el sitio publicado en GitHub Pages no mostrará las pizzas. Para evaluar el funcionamiento completo, es necesario ejecutar ambos servidores localmente siguiendo los pasos anteriores.
+
+```bash
 # Build de producción
 npm run build
 
-# Publicar en GitHub Pages
+# Publicar en GitHub Pages (solo frontend estático)
 npm run deploy
 ```
 
@@ -148,6 +157,18 @@ https://cjerez7025.github.io/hito-3-mamma-mia/
 | Cart recorre pizzaCart y muestra información de cada pizza | 1 | ✅ |
 | Cart tiene botones para aumentar y disminuir cantidad | 1 | ✅ |
 | Cart calcula y muestra el total de la compra | 1 | ✅ |
+
+---
+
+### Hito 4 — Consumo de APIs con React (10 pts)
+
+| Criterio | Pts | Estado |
+|---|---|---|
+| Home.jsx consume la API y renderiza tarjetas de pizza | 2 | ✅ |
+| Home.jsx utiliza `useEffect` para consumir la API | 2 | ✅ |
+| Pizza.jsx consume la API y renderiza la información de la pizza | 2 | ✅ |
+| Pizza.jsx utiliza `useEffect` para consumir la API | 2 | ✅ |
+| Pizza.jsx muestra nombre, precio, ingredientes, imagen y descripción | 2 | ✅ |
 
 ---
 

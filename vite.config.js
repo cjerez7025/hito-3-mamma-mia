@@ -3,5 +3,10 @@ import react from '@vitejs/plugin-react'
 
 export default defineConfig({
   plugins: [react()],
-  base: '/mamma-mia/',
+  base: '/hito-3-mamma-mia/',
+  server: {
+    proxy: {
+      '/api': 'http://localhost:5000',
+    },
+  },
 })

@@ -1,14 +1,21 @@
+import { useState, useEffect } from "react";
 import Header from "./Header";
 import CardPizza from "./CardPizza";
-import { pizzas } from "../pizzas";
 
 const Home = () => {
+  const [pizzas, setPizzas] = useState([]);
+
+  useEffect(() => {
+    fetch("/api/pizzas")
+      .then((res) => res.json())
+      .then((data) => setPizzas(data))
+      .catch((err) => console.error("Error al cargar pizzas:", err));
+  }, []);
+
   return (
     <main>
-      {/* Header con imagen de fondo, título y descripción */}
       <Header />
 
-      {/* Sección de pizzas — renderización dinámica desde pizzas.js */}
       <section className="container py-5">
         <h2 className="text-center fw-bold mb-4">Nuestras Pizzas</h2>
         <div className="row g-4 justify-content-center">
